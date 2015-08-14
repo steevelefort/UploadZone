@@ -16,7 +16,9 @@ In your HTML code :
 </div>
 ```
 In your JS Code, add 'uploadZone' to your app module :
+```
 var app = angular.module("app", ['uploadZone']);
+```
 
 ## Options
 
