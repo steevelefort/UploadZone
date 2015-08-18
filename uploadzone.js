@@ -69,6 +69,7 @@ uploadZone.directive('uploadZone', function() {
                     return;
                 }
                 xhr.open('POST', attrs["url"],true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 
                 if (typeof attrs["onloadstart"] != "undefined") xhr.upload.addEventListener('loadstart',scope[attrs["onloadstart"]]);
                 if (typeof attrs["onprogress"] != "undefined") xhr.upload.addEventListener('progress',scope[attrs["onprogress"]]);
