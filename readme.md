@@ -11,7 +11,7 @@ In your HTML header, add a script tag after Angular.JS :
 
 In your HTML code :  
 ```
-<div upload-zone url="/media">
+<div upload-zone url="/media" field-name="myfile">
 	Click here or drop a file
 </div>
 ```
@@ -29,11 +29,20 @@ The following HTML attributes can be used :
 A click on target element open a file browser
 
 ### Additional fields
+**fieldname** : field name
+
 **fields** : A $scope object like :
 ```
 { 'method':'put', 'token':'xxxx' } 
 ```
 If you need to post some other data, you could use this attribute
+
+### Allowed mime-types
+**mimetypes** : list of allowed mime-types separated by a semicolon
+```
+mimetypes="video/mp4; image/jpeg"
+```
+Bad mime-types raise "onerror" callback.
 
 ### XHR Callbacks
 **onloadstart, onprogress, onabort, onerror, onload, ontimeout, onloadend** : $scope callback functions (with one event arg)
