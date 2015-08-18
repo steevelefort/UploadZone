@@ -13,6 +13,24 @@ uploadZone.directive('uploadZone', function() {
         link: function (scope, element, attrs) {
             var dz = element[0];
 
+            var mimetest = function(file) {
+                if (typeof attrs["mimetypes"] != "undefined") {
+
+                    var list = attrs["mimetypes"].split(";");
+                    var success = false;
+                    for (i = 0; i < list.length; i++) {
+                        if (list[i].trim() == file.type) success = true;
+                    }
+                    if (!success){
+                        if (typeof attrs["onerror"] != "undefined"){
+                            scope[attrs["onerror"]]({ 'message':'File type not allowed' })
+                        }
+                    }
+                    return success;
+                }
+                return true;
+            }
+
             var openFileBrowser = function(e){
                 e.stopPropagation();
                 e.preventDefault();
@@ -31,14 +49,15 @@ uploadZone.directive('uploadZone', function() {
                 e.preventDefault();
                 var dt    = e.dataTransfer;
                 var files = dt.files;
-                console.log(files[0]);
-                upload(files[0]);
+                //console.log('Dropped:'+files[0]);
+                if (mimetest(files[0])) upload(files[0]);
                 return false;
             }
 
             var open = function(e){
-                console.log(e.srcElement.files[0]);
-                upload(e.srcElement.files[0]);
+                //console.log('Selected:'+e.srcElement.files[0]);
+                if (mimetest(e.srcElement.files[0]))
+                    upload(e.srcElement.files[0]);
                 return false;
             }
 
@@ -61,7 +80,9 @@ uploadZone.directive('uploadZone', function() {
 
                 var form = new FormData();
 
-                form.append('file', file);
+                var name = "file";
+                if (typeof attrs["fieldname"] != "undefined") name = attrs["fieldname"];
+                form.append(name, file);
 
                 var fields = scope[attrs["fields"]];
                 if (typeof fields != 'undefined'){
