@@ -29,7 +29,7 @@
 <body ng-app="app" ng-controller="controller">
 
     <div upload-zone class="upload-zone" url="index.html" fieldname="file" mimetypes="video/mp4; image/jpeg"
-         onerror="onerror">
+         onerror="onerror" onprogress="onprogress" onload="onload">
         Click here or drop a file
     </div>
 
@@ -41,18 +41,12 @@
                 console.log(e);
             }
 
-            $scope.startUpload = function(){
-                console.log("START");
-            }
-
-            $scope.load = function(e){
+            $scope.onload = function(e){
                 console.log("END");
             }
 
-            $scope.progress = function(e){
-                //console.log(e.loaded / e.total);
-                $scope.dynamic = e.loaded / e.total;
-                $scope.$apply();
+            $scope.onprogress = function(e){
+                console.log(e.loaded / e.total);
             }
 
         }]);
