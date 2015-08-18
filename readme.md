@@ -11,7 +11,7 @@ In your HTML header, add a script tag after Angular.JS :
 
 In your HTML code :  
 ```
-<div upload-zone url="/media" field-name="myfile">
+<div upload-zone url="/media" fieldname="myfile">
 	Click here or drop a file
 </div>
 ```
