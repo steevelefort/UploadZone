@@ -68,12 +68,19 @@ uploadZone.directive('uploadZone', function() {
                     console.log("uploadZone: 'url' attribute must be defined");
                     return;
                 }
-                xhr.open('POST', attrs["url"]);
+                xhr.open('POST', attrs["url"],true);
 
                 if (typeof attrs["onloadstart"] != "undefined") xhr.upload.addEventListener('loadstart',scope[attrs["onloadstart"]]);
                 if (typeof attrs["onprogress"] != "undefined") xhr.upload.addEventListener('progress',scope[attrs["onprogress"]]);
                 if (typeof attrs["onabort"] != "undefined") xhr.upload.addEventListener('abort',scope[attrs["onabort"]]);
-                if (typeof attrs["onerror"] != "undefined") xhr.upload.addEventListener('error',scope[attrs["onerror"]]);
+                if (typeof attrs["onerror"] != "undefined"){
+                    xhr.addEventListener('error',scope[attrs["onerror"]]);
+                    xhr.upload.addEventListener('error',scope[attrs["onerror"]]);
+                    xhr.onreadystatechange=function(e){
+                        if (xhr.readyState===4 && xhr.status>399)
+                            scope[attrs["onerror"]]({'message':xhr.statusText})
+                    };
+                }
                 if (typeof attrs["onload"] != "undefined") xhr.upload.addEventListener('load',scope[attrs["onload"]]);
                 if (typeof attrs["ontimeout"] != "undefined") xhr.upload.addEventListener('timeout',scope[attrs["ontimeout"]]);
                 if (typeof attrs["onloadend"] != "undefined") xhr.upload.addEventListener('loadend',scope[attrs["onloadend"]]);
